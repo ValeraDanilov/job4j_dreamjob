@@ -8,6 +8,11 @@ public class Post {
     private String description;
     private String create;
 
+    public Post(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Post(int id, String name, String description, String create) {
         this.id = id;
         this.name = name;
