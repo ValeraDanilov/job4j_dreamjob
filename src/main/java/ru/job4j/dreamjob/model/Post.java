@@ -8,6 +8,8 @@ public class Post {
     private String description;
     private String create;
 
+    public Post() {}
+
     public Post(int id, String name) {
         this.id = id;
         this.name = name;
@@ -63,5 +65,15 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", create='" + create + '\'' +
+                '}';
     }
 }
