@@ -38,7 +38,6 @@ public class PostStore {
     }
 
     public void update(Post post) {
-        Post updatePost = this.findById(post.getId());
-        updatePost.setName(post.getName());
+        this.posts.replace(post.getId(), post);
     }
 }
