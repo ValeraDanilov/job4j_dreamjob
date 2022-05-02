@@ -30,6 +30,15 @@ public class PostStore {
 
     public void create(Post post) {
         post.setId(index.getAndIncrement());
-        posts.putIfAbsent(post.getId(), post);
+        this.posts.putIfAbsent(post.getId(), post);
+    }
+
+    public Post findById(int id) {
+        return this.posts.get(id);
+    }
+
+    public void update(Post post) {
+        Post updatePost = this.findById(post.getId());
+        updatePost.setName(post.getName());
     }
 }
