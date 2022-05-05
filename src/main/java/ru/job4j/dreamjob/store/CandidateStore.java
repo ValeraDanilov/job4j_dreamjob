@@ -2,6 +2,7 @@ package ru.job4j.dreamjob.store;
 
 import ru.job4j.dreamjob.model.Candidate;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,11 +14,12 @@ public class CandidateStore {
 
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private AtomicInteger index = new AtomicInteger(4);
+    private LocalDateTime time = LocalDateTime.now();
 
     private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Junior Java", "Junior", "09.04.22"));
-        candidates.put(2, new Candidate(2, "Middle Java", "Middle", "08.04.22"));
-        candidates.put(3, new Candidate(3, "Senior Java", "Senior", "07.04.22"));
+        candidates.put(1, new Candidate(1, "Junior Java", "Junior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
+        candidates.put(2, new Candidate(2, "Middle Java", "Middle", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
+        candidates.put(3, new Candidate(3, "Senior Java", "Senior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
     }
 
     public static CandidateStore instOf() {
@@ -30,6 +32,7 @@ public class CandidateStore {
 
     public void create(Candidate candidate) {
         candidate.setId(this.index.getAndIncrement());
+        candidate.setCreated(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), LocalDateTime.now().getHour(), LocalDateTime.now().getMinute()));
         this.candidates.putIfAbsent(candidate.getId(), candidate);
     }
 

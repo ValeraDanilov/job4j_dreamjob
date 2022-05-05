@@ -2,6 +2,7 @@ package ru.job4j.dreamjob.store;
 
 import ru.job4j.dreamjob.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,13 +12,14 @@ public class PostStore {
 
     private static final PostStore INST = new PostStore();
     private AtomicInteger index = new AtomicInteger(4);
+    private LocalDateTime time = LocalDateTime.now();
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private PostStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Junior", "09.04.22"));
-        posts.put(2, new Post(2, "Middle Java Job", "Middle", "08.04.22"));
-        posts.put(3, new Post(3, "Senior Java Job", "Senior", "07.04.22"));
+        posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
+        posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
+        posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
     }
 
     public static PostStore instOf() {
@@ -30,6 +32,7 @@ public class PostStore {
 
     public void create(Post post) {
         post.setId(index.getAndIncrement());
+        post.setCreate(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), LocalDateTime.now().getHour(), LocalDateTime.now().getMinute()));
         this.posts.putIfAbsent(post.getId(), post);
     }
 
