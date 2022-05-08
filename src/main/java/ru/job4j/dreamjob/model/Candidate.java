@@ -7,6 +7,7 @@ public class Candidate {
 
     private int id;
     private String name;
+    private boolean visible;
     private String desc;
     private LocalDateTime created;
 
@@ -39,6 +40,14 @@ public class Candidate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public String getDesc() {

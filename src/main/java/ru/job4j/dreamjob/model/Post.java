@@ -6,6 +6,7 @@ import java.util.Objects;
 public class Post {
     private int id;
     private String name;
+    private boolean visible;
     private String description;
     private LocalDateTime create;
 
@@ -37,6 +38,14 @@ public class Post {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public String getDescription() {
