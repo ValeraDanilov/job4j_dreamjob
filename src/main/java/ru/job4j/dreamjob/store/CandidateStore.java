@@ -18,10 +18,9 @@ public class CandidateStore {
     private final AtomicInteger index = new AtomicInteger(4);
 
     private CandidateStore() {
-        LocalDateTime time = LocalDateTime.now();
-        candidates.put(1, new Candidate(1, "Junior Java", "Junior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
-        candidates.put(2, new Candidate(2, "Middle Java", "Middle", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
-        candidates.put(3, new Candidate(3, "Senior Java", "Senior", LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute())));
+        candidates.put(1, new Candidate(1, "Junior Java", "Junior", LocalDateTime.now()));
+        candidates.put(2, new Candidate(2, "Middle Java", "Middle", LocalDateTime.now()));
+        candidates.put(3, new Candidate(3, "Senior Java", "Senior", LocalDateTime.now()));
     }
 
     public Collection<Candidate> findAll() {
@@ -30,7 +29,7 @@ public class CandidateStore {
 
     public void create(Candidate candidate) {
         candidate.setId(this.index.getAndIncrement());
-        candidate.setCreated(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), LocalDateTime.now().getHour(), LocalDateTime.now().getMinute()));
+        candidate.setCreated(LocalDateTime.now());
         this.candidates.putIfAbsent(candidate.getId(), candidate);
     }
 
