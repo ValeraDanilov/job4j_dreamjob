@@ -3,6 +3,7 @@ package ru.job4j.dreamjob.store;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Post;
+import ru.job4j.dreamjob.service.CityService;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -22,6 +23,7 @@ public class PostStore {
         posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDateTime.now()));
         posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDateTime.now()));
     }
+
 
     public Collection<Post> findAll() {
         return posts.values();

@@ -40,6 +40,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Описание вакансии</th>
+                <th scope="col">Город</th>
                 <th scope="col">Дата создания</th>
             </tr>
             </thead>
@@ -59,6 +60,7 @@
         </span>
                 </td>
                 <td th:text="${post.description}" />
+                <td th:text="${post.city}" />
                 <td th:text="${post.create}" />
             </tr>
             </tbody>
