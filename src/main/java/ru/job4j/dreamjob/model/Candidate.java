@@ -7,10 +7,10 @@ public class Candidate {
 
     private int id;
     private String name;
+    private byte[] photo;
     private boolean visible;
     private String desc;
     private LocalDateTime created;
-
 
     public Candidate() {}
 
@@ -40,6 +40,14 @@ public class Candidate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public boolean isVisible() {
