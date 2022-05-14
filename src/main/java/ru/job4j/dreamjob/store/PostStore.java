@@ -18,20 +18,13 @@ public class PostStore {
     private final AtomicInteger index = new AtomicInteger(4);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
-    private PostStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDateTime.now()));
-        posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDateTime.now()));
-        posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDateTime.now()));
-    }
-
-
     public Collection<Post> findAll() {
         return posts.values();
     }
 
     public void create(Post post) {
         post.setId(index.getAndIncrement());
-        post.setCreate(LocalDateTime.now());
+        post.setCreated(LocalDateTime.now());
         this.posts.putIfAbsent(post.getId(), post);
     }
 

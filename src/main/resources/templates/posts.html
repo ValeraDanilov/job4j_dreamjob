@@ -61,7 +61,7 @@
                 </td>
                 <td th:text="${post.description}" />
                 <td th:text="${post.city}" />
-                <td th:text="${post.create}" />
+                <td th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}"> />
             </tr>
             </tbody>
         </table>

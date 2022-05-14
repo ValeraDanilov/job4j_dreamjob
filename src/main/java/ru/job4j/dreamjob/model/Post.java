@@ -8,23 +8,21 @@ public class Post implements Serializable {
 
     private int id;
     private String name;
-    private boolean visible;
-    private City city;
     private String description;
-    private LocalDateTime create;
+    private City city;
+    private LocalDateTime created;
+    private boolean visible;
 
-    public Post() {}
-
-    public Post(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Post() {
     }
 
-    public Post(int id, String name, String description, LocalDateTime create) {
+    public Post(int id, String name, String description, City city, LocalDateTime created, boolean visible) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.create = create;
+        this.city = city;
+        this.created = created;
+        this.visible = visible;
     }
 
     public int getId() {
@@ -67,12 +65,12 @@ public class Post implements Serializable {
         this.description = description;
     }
 
-    public LocalDateTime getCreate() {
-        return create;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setCreate(LocalDateTime create) {
-        this.create = create;
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     @Override
@@ -94,7 +92,7 @@ public class Post implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", create=" + create +
+                ", create=" + created +
                 '}';
     }
 }

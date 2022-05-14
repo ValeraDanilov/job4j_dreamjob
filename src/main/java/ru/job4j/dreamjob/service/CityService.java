@@ -10,12 +10,16 @@ import java.util.Map;
 
 @Service
 public class CityService {
+
     private final Map<Integer, City> cities = new HashMap<>();
 
     public CityService() {
-        cities.put(1, new City(1, "Москва"));
-        cities.put(2, new City(2, "СПб"));
-        cities.put(3, new City(3, "Екб"));
+        cities.put(1, new City(1, "Киев"));
+        cities.put(2, new City(2, "Харьков"));
+        cities.put(3, new City(3, "Днепр"));
+        cities.put(4, new City(4, "Львов"));
+        cities.put(5, new City(5, "Херсон"));
+        cities.put(6, new City(6, "Одесса"));
     }
 
     public List<City> getAllCities() {
