@@ -7,3 +7,13 @@ create table post
     created timestamp,
     visible boolean default false
 );
+
+create table candidate
+ (
+     id   serial primary key,
+     name text,
+     photo bytea,
+     visible boolean default false,
+     description text,
+     created timestamp
+);

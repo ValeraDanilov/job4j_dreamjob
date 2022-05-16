@@ -3,11 +3,11 @@ package ru.job4j.dreamjob.jdbc;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -39,7 +39,7 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception", e);
+            LOG.error(e.getMessage(), e);
         }
         posts.sort(Comparator.comparing(Post::getId));
         return posts;
@@ -47,7 +47,8 @@ public class PostDBStore {
 
     public Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name, description, city_id, created, visible) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name, description, city_id, created, visible) VALUES (?, ?, ?, ?, ?)",
+                     Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setInt(3, post.getCity().getId());
@@ -60,23 +61,33 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception", e);
+            LOG.error(e.getMessage(), e);
         }
         return post;
     }
 
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("update post set name = ?, description = ?, city_id = ?, created = ?, visible = ? where id = ?", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement("update post set name = ?, description = ?, city_id = ?, visible = ? where id = ?",
+                     Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setInt(3, post.getCity().getId());
-            ps.setTimestamp(4, Timestamp.valueOf(post.getCreated()));
-            ps.setBoolean(5, post.isVisible());
-            ps.setInt(6, post.getId());
+            ps.setBoolean(4, post.isVisible());
+            ps.setInt(5, post.getId());
             ps.executeUpdate();
         } catch (Exception ex) {
-            LOG.error("Exception", ex);
+            LOG.error(ex.getMessage(), ex);
+        }
+    }
+
+    public void delete(Post post) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement pr = cn.prepareStatement("delete from post where id = ?")) {
+            pr.setInt(1, post.getId());
+            pr.executeUpdate();
+        } catch (SQLException se) {
+            LOG.error(se.getMessage(), se);
         }
     }
 
@@ -96,7 +107,7 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception", e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }

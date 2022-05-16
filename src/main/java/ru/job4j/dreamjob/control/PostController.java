@@ -3,10 +3,7 @@ package ru.job4j.dreamjob.control;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
@@ -19,6 +16,7 @@ public class PostController {
 
     private final PostService postService;
     private final CityService cityService;
+    private static final String VALUE = "redirect:/posts";
 
     public PostController(PostService postService, CityService cityService) {
         this.postService = postService;
@@ -43,14 +41,14 @@ public class PostController {
         post.setCity(this.cityService.findById(post.getCity().getId()));
         post.setCreated(LocalDateTime.now());
         this.postService.create(post);
-        return "redirect:/posts";
+        return VALUE;
     }
 
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
         post.setCity(this.cityService.findById(post.getCity().getId()));
         this.postService.update(post);
-        return "redirect:/posts";
+        return VALUE;
     }
 
     @GetMapping("/formUpdatePost/{postId}")
@@ -58,5 +56,19 @@ public class PostController {
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";
+    }
+
+    @GetMapping("/formDeletePost/{postId}")
+    public String formDeletePost(Model model, @PathVariable("postId") int id) {
+        model.addAttribute("post", postService.findById(id));
+        return "deletePost";
+    }
+
+    @PostMapping("/deletePost")
+    public String deletePost(@ModelAttribute Post post, @RequestParam("delete") boolean delete) {
+        if (delete) {
+            this.postService.delete(post);
+        }
+        return VALUE;
     }
 }

@@ -17,11 +17,6 @@ public class CandidateStore {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final AtomicInteger index = new AtomicInteger(4);
 
-    private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Junior Java", "Junior", LocalDateTime.now()));
-        candidates.put(2, new Candidate(2, "Middle Java", "Middle", LocalDateTime.now()));
-        candidates.put(3, new Candidate(3, "Senior Java", "Senior", LocalDateTime.now()));
-    }
 
     public Collection<Candidate> findAll() {
         return this.candidates.values();

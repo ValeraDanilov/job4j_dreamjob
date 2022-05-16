@@ -17,7 +17,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .btn {
+            background-color: DodgerBlue;
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: RoyalBlue;
+        }
+    </style>
     <title>Работа мечты</title>
 </head>
 <body>
@@ -33,38 +46,30 @@
                 <a class="nav-item nav-link" href="#">Главная</a>
                 <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
                 <a class="nav-item nav-link active" th:href="@{/addPost}">Добавить вакансию</a>
-                <a class="nav-item nav-link" th:href="@{/cadidates}">Кандидаты</a>
+                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
             </div>
         </div>
     </nav>
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Редактирование вакансии вакансия.
+                Удаление фото.
             </div>
             <div class="card-body">
-                <form th:action="@{/updatePost}" method="POST" th:object="${post}">
+                <form th:action="@{/updateCandidatePhoto}" method="POST" enctype="multipart/form-data"
+                      th:object="${candidate}">
                     <input type="hidden" name="id" th:field="*{id}"/>
+                    <input type="hidden" name="id" th:field="*{created}"/>
                     <div class="form-group">
-                        <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                        <input type="file" class="form-control" name="file" id="file">
+                        <br>
+                        <button type="submit" name="delete" value="true" class="btn btn-primary">Сохранить фото</button>
+                        <br>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Описание</label>
-                        <input type="text" class="form-control" name="description" id="description" th:field="*{description}">
-                    </div>
-                    <div class="form-group">
-                        <label for="city.id">Город</label>
-                        <select class="form-control" id="city.id" name="city.id">
-                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"
-                                    th:selected="${city.id == post.city.id}"></option>
-                        </select>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" name="visible" class="form-check-input" id="visible">
-                        <label class="form-check-label" for="visible">Опубликовать</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
+                    <br>
+                    <br>
+                    <button class="btn" name="delete" value="false"><i class="fa fa-trash"></i> Удалить фото</button>
                 </form>
             </div>
         </div>

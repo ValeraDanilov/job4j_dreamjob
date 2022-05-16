@@ -14,12 +14,15 @@ import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Controller
 @ThreadSafe
 public class CandidateController {
 
     private final CandidateService store;
+    private static final String VALUE = "candidate";
+    private static final String PATS = "redirect:/candidates";
 
     public CandidateController(CandidateService store) {
         this.store = store;
@@ -33,16 +36,16 @@ public class CandidateController {
 
     @GetMapping("/formAddCandidate")
     public String addCandidate(Model model) {
-        model.addAttribute("candidate", new Candidate(0, "Заполните поле"));
+        model.addAttribute(VALUE, new Candidate(0, "Заполните поле", null, false, "Заполните поле", null));
         return "addCandidate";
     }
 
     @PostMapping("/updateCandidate")
-    public String updateCandidate(@ModelAttribute Candidate candidate,
-                                  @RequestParam() MultipartFile file) throws IOException {
-        candidate.setPhoto(file.getBytes());
-        this.store.update(candidate);
-        return "redirect:/candidates";
+    public String updateCandidate(@ModelAttribute Candidate updateCandidate) {
+        Candidate oldCandidate = store.findById(updateCandidate.getId());
+        updateCandidate.setPhoto(oldCandidate.getPhoto());
+        this.store.update(updateCandidate);
+        return PATS;
     }
 
     @GetMapping("/photoCandidate/{candidateId}")
@@ -59,13 +62,51 @@ public class CandidateController {
     public String createCandidate(@ModelAttribute Candidate candidate,
                                   @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
+        candidate.setCreated(LocalDateTime.now());
         store.create(candidate);
-        return "redirect:/candidates";
+        return PATS;
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute("candidate", this.store.findById(id));
+        model.addAttribute(VALUE, this.store.findById(id));
         return "updateCandidate";
+    }
+
+    @GetMapping("/formDeletePhoto/{candidateId}")
+    public String formDeletePhoto(Model model, @PathVariable("candidateId") int id) {
+        model.addAttribute(VALUE, this.store.findById(id));
+        return "updateCandidatePhoto";
+    }
+
+    @PostMapping("/updateCandidatePhoto")
+    public String updateCandidatePhoto(@ModelAttribute Candidate updateCandidate,
+                                       @RequestParam("file") MultipartFile file,
+                                       @RequestParam("delete") boolean del) throws IOException {
+        String id = String.valueOf(updateCandidate.getId());
+        Candidate oldCandidate = store.findById(updateCandidate.getId());
+        updateCandidate.setName(oldCandidate.getName());
+        updateCandidate.setDesc(oldCandidate.getDesc());
+        if (del && file.isEmpty()) {
+            updateCandidate.setPhoto(oldCandidate.getPhoto());
+        } else {
+            updateCandidate.setPhoto(file.getBytes());
+        }
+        this.store.update(updateCandidate);
+        return String.format("redirect:/formUpdateCandidate/%s", id);
+    }
+
+    @GetMapping("/formDeleteCandidate/{candidateId}")
+    public String formDeleteCandidate(Model model, @PathVariable("candidateId") int id) {
+        model.addAttribute(VALUE, store.findById(id));
+        return "deleteCandidate";
+    }
+
+    @PostMapping("/deleteCandidate")
+    public String deleteCandidate(@ModelAttribute Candidate candidate, @RequestParam("delete") boolean delete) {
+        if (delete) {
+            this.store.delete(candidate);
+        }
+        return PATS;
     }
 }

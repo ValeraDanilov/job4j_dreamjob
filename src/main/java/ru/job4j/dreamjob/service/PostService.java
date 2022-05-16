@@ -40,4 +40,8 @@ public class PostService {
     public void update(Post post) {
         this.store.update(post);
     }
+
+    public void delete(Post post) {
+        this.store.delete(post);
+    }
 }

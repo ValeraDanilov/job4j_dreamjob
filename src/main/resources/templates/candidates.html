@@ -50,6 +50,9 @@
                     <a th:href="@{|/formUpdateCandidate/${candidate.id}|}">
                         <i class="fa fa-edit"></i>
                     </a>
+                    <a th:href="@{|/formDeleteCandidate/${candidate.id}|}">
+                        <i class="fa fa-trash"></i>
+                    </a>
                     <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
                     <span th:text="${candidate.name}"></span>
                     <span th:if="${candidate.visible}">
@@ -60,7 +63,7 @@
         </span>
                 </td>
                 <td th:text="${candidate.desc}" />
-                <td th:text="${candidate.created}" />
+                <td th:text="${#temporals.format(candidate.created, 'dd-MM-yyyy HH:mm')}"> />
             </tr>
             </tbody>
         </table>
@@ -68,4 +71,3 @@
 </div>
 </body>
 </html>
-
