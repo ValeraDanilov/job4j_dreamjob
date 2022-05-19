@@ -25,6 +25,11 @@ public class Post implements Serializable {
         this.visible = visible;
     }
 
+    public Post(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
