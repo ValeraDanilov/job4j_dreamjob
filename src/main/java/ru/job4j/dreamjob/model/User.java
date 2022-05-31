@@ -1,15 +1,18 @@
 package ru.job4j.dreamjob.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
 
     private int id;
     private String name;
     private String email;
     private String password;
     private LocalDateTime created;
+
+    public User() {
+    }
 
     public User(int id, String name, String email, String password, LocalDateTime created) {
         this.id = id;

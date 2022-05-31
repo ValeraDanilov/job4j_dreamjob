@@ -8,6 +8,7 @@ import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @Controller
@@ -24,15 +25,17 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String posts(Model model) {
+    public String posts(Model model, HttpSession session) {
         model.addAttribute("posts", this.postService.findAll());
+        new IndexControl().index(model, session);
         return "posts";
     }
 
     @GetMapping("/formAddPost")
-    public String addPost(Model model) {
+    public String addPost(Model model, HttpSession session) {
         model.addAttribute("post", new Post(0, "Заполните поле", "Заполните поле", null, null, false));
         model.addAttribute("cities", cityService.getAllCities());
+        new IndexControl().index(model, session);
         return "addPost";
     }
 

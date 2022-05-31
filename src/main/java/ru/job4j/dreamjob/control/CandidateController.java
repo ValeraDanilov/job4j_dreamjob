@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -29,14 +30,16 @@ public class CandidateController {
     }
 
     @GetMapping("/candidates")
-    public String candidates(Model model) {
+    public String candidates(Model model, HttpSession session) {
         model.addAttribute("candidates", this.store.findAll());
+        new IndexControl().index(model, session);
         return "candidates";
     }
 
     @GetMapping("/formAddCandidate")
-    public String addCandidate(Model model) {
+    public String addCandidate(Model model, HttpSession session) {
         model.addAttribute(VALUE, new Candidate(0, "Заполните поле", null, false, "Заполните поле", null));
+        new IndexControl().index(model, session);
         return "addCandidate";
     }
 
