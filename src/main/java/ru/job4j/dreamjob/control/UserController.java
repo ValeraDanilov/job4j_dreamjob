@@ -32,35 +32,32 @@ public class UserController {
     @GetMapping("/registration")
     public String addUser(Model model, HttpSession session) {
         model.addAttribute("newUser", new User(0, VALUE, VALUE, VALUE, null));
-        new IndexControl().index(model, session);
+        sessions(model, session);
         return "registration";
     }
 
     @GetMapping("/registrationPage")
     public String registrationPage(Model model, HttpSession session, @RequestParam(name = "fail", required = false) Boolean fail) {
         model.addAttribute("fail", fail != null);
-        new IndexControl().index(model, session);
+        sessions(model, session);
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(Model model, @ModelAttribute User user, HttpServletRequest req) {
+    public String registration(Model model, @ModelAttribute User user) {
         user.setCreated(LocalDateTime.now());
         Optional<User> regUser = userService.add(user);
         if (regUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
             return "redirect:/registrationPage?fail=true";
         }
-        HttpSession session = req.getSession();
-        session.setAttribute("user", regUser.get());
-        session.invalidate();
         return "success";
     }
 
     @GetMapping("/loginPage")
     public String loginPage(Model model, HttpSession session, @RequestParam(name = "fail", required = false) Boolean fail) {
         model.addAttribute("fail", fail != null);
-        new IndexControl().index(model, session);
+        sessions(model, session);
         return "login";
     }
 
@@ -81,5 +78,14 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/index";
+    }
+
+    private void sessions(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
     }
 }

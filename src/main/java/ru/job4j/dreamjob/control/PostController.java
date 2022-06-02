@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Post;
+import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
 
@@ -27,7 +28,7 @@ public class PostController {
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
         model.addAttribute("posts", this.postService.findAll());
-        new IndexControl().index(model, session);
+        sessions(model, session);
         return "posts";
     }
 
@@ -35,7 +36,7 @@ public class PostController {
     public String addPost(Model model, HttpSession session) {
         model.addAttribute("post", new Post(0, "Заполните поле", "Заполните поле", null, null, false));
         model.addAttribute("cities", cityService.getAllCities());
-        new IndexControl().index(model, session);
+        sessions(model, session);
         return "addPost";
     }
 
@@ -73,5 +74,14 @@ public class PostController {
             this.postService.delete(post);
         }
         return VALUE;
+    }
+
+    private void sessions(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
     }
 }
