@@ -4,8 +4,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -17,12 +19,42 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <style>
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            border-collapse: collapse;
+            border-spacing: 5px;
+            background: #d5c7c9;
+            border-radius: 20px;
+        }
+
+        th {
+            font-size: 22px;
+            font-weight: 300;
+            padding: 12px 10px;
+            border-bottom: 2px solid #ffffff;
+            color: #ffffff;
+        }
+
+        tbody tr:nth-child(2) {
+            border-bottom: 2px solid #ffffff;
+        }
+
+        td {
+            padding: 10px;
+            color: #ffffff;
+        }
+
+        .table td, .table th {
+            border-top: 0;
+        }
+    </style>
 
     <title>Dream Job!</title>
 </head>
 <body>
 <div class="container pt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b75e73;">
         <a class="navbar-brand" href="#">Dream Job</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,43 +62,54 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/index}">Главная <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
-                <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
-                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Создание кандидата</a>
-                <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/registration}">Регистрация</a>
-                <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginPage}">
+                <a class="nav-item nav-link" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:href="@{/posts}">Jobs</a>
+                <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" th:href="@{/registration}">Registration</a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
                     <span th:text="${user.name}"></span>
-                    <span> | Войти</span>
+                    <span> | Sign in</span>
                 </a>
-                <a class="nav-item nav-link" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+                <a class="nav-item nav-link" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
                     <span th:text="${user.name}"></span>
-                    <span> | Выйти</span>
+                    <span> | Sign out</span>
                 </a>
             </div>
         </div>
     </nav>
     <div class="container pt-3">
-        <table class="table">
-            <thead>
+        <table class="table" style="width: 70%; margin: auto">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Почта</th>
-                <th scope="col">Дата создания</th>
+                <th style="text-align: center" colspan="5">Vacancies for today</th>
             </tr>
-            </thead>
-            <tbody>
-            <a class="nav-item nav-link" th:if="${user.name != 'Гость'}">
-                <tr>
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${#temporals.format(user.created, 'dd-MM-yyyy HH:mm')}"> />
-                </tr>
-            </a>
-            </tbody>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">City</th>
+            </tr>
+            <tr th:each="post: ${posts}">
+                <td th:text="${post.name}"></td>
+                <td th:text="${post.description}"></td>
+                <td th:text="${post.city}"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="container pt-3">
+        <table class="table" style="width: 70%; margin: auto">
+            <tr>
+                <th style="text-align: center" colspan="5">Candidates for today</th>
+            </tr>
+            <tr>
+                <th style="text-align: center" scope="col">Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            <tr th:each="candidate: ${candidates}">
+                <td>
+                    <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
+                    <span  th:text="${candidate.name}"></span>
+                </td>
+                <td th:text="${candidate.description}"></td>
+            </tr>
         </table>
     </div>
 </div>

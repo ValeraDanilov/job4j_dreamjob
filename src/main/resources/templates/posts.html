@@ -8,76 +8,179 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Работа мечты!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            border-collapse: collapse;
+            border-spacing: 5px;
+            background: #d0caca;
+            border-radius: 20px;
+        }
+
+        th {
+            font-size: 22px;
+            font-weight: 300;
+            padding: 12px 10px;
+            border-bottom: 2px solid #020202;
+            color: #070707;
+        }
+
+        td {
+            padding: 10px;
+            color: #111111;
+        }
+
+        .table td, .table th {
+            border-top: 0;
+            vertical-align: middle;
+        }
+
+        .main {
+            text-align: center;
+        }
+
+        .table thead th {
+            border-bottom: 0;
+        }
+    </style>
+    <title>Dream Job!</title>
 </head>
 <body>
 <div class="container pt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b75e73;">
         <a class="navbar-brand" href="#">Dream Job</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/index}">Главная <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
-                <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
-                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Создание кандидата</a>
-                <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/registration}">Регистрация</a>
-                <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginPage}">
+                <a class="nav-item nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:href="@{/posts}">Jobs</a>
+                <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" th:href="@{/registration}">Registration</a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
                     <span th:text="${user.name}"></span>
-                    <span> | Войти</span>
+                    <span> | Sign in</span>
                 </a>
-                <a class="nav-item nav-link" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+                <a class="nav-item nav-link" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
                     <span th:text="${user.name}"></span>
-                    <span> | Выйти</span>
+                    <span> | Sign out</span>
                 </a>
             </div>
         </div>
     </nav>
-    <div class="container pt-3">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Описание вакансии</th>
-                <th scope="col">Город</th>
-                <th scope="col">Дата создания</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post: ${posts}">
-                <td th:text="${post.id}"></td>
-                <td>
-                    <a th:href="@{|/formUpdatePost/${post.id}|}">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a th:href="@{|/formDeletePost/${post.id}|}">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <span th:text="${post.name}"></span>
-                    <span th:if="${post.visible}">
+
+    <div class="main">
+        <br>
+        <button type="button" class="btn btn-success" style="color: #ffffff; display: inline-block;"
+                data-toggle="modal"
+                data-target="#addModal">Add new job
+        </button>
+
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">New Job</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="data" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="city.id">City</label>
+                                <select class="form-control" id="city.id" name="city.id">
+                                    <option th:each="city : ${cities}" th:value="${city.id}"
+                                            th:text="${city.name}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" name="description" id="description">
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" name="visible" id="visible">
+                                <label for="visible">Publish</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="send_candidate()">
+                            Send
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function send_candidate() {
+        let moreinfo = '';
+        document.querySelectorAll('input[type=checkbox]').forEach(function (element) {
+            moreinfo = element.checked;
+        });
+        let formElement = document.getElementById("data");
+        let data = new FormData(formElement);
+        data.append('visible', moreinfo);
+        fetch("/createPost", {
+            method: "POST",
+            body: data
+        }).then(response => response.json())
+            .then(html => console.log(html));
+    }
+</script>
+
+<div class="container pt-3">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">City</th>
+            <th scope="col">Date of creation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post: ${posts}">
+            <td th:text="${post.id}"></td>
+            <td>
+                <a style="color: #020202" class="col" th:href="@{|/formPostId/${post.id}|}">
+                    <i th:href="@{/post.name}" th:text="${post.name}"></i>
+                </a>
+                <span style="color: blue" th:if="${post.visible}">
             <i class="fa fa-check-square-o"></i>
         </span>
-                    <span th:if="${!post.visible}">
+                <span style="color: blue"  th:if="${!post.visible}">
             <i class="fa fa-square-o"></i>
         </span>
-                </td>
-                <td th:text="${post.description}" />
-                <td th:text="${post.city}" />
-                <td th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}"> />
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            </td>
+            <td th:text="${post.description}"/>
+            <td th:text="${post.city}"/>
+            <td th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}"> />
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

@@ -37,13 +37,6 @@ public class CandidateController {
         return "candidates";
     }
 
-    @GetMapping("/formAddCandidate")
-    public String addCandidate(Model model, HttpSession session) {
-        model.addAttribute(VALUE, new Candidate(0, "Заполните поле", null, false, "Заполните поле", null));
-        sessions(model, session);
-        return "addCandidate";
-    }
-
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate updateCandidate) {
         Candidate oldCandidate = store.findById(updateCandidate.getId());
@@ -63,11 +56,10 @@ public class CandidateController {
     }
 
     @PostMapping("/createCandidate")
-    public String createCandidate(@ModelAttribute Candidate candidate,
-                                  @RequestParam("file") MultipartFile file) throws IOException {
-        candidate.setPhoto(file.getBytes());
+    public String createCandidate(@ModelAttribute Candidate candidate, @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setCreated(LocalDateTime.now());
-        store.create(candidate);
+        candidate.setPhoto(file.getBytes());
+        this.store.create(candidate);
         return PATS;
     }
 
@@ -90,7 +82,7 @@ public class CandidateController {
         String id = String.valueOf(updateCandidate.getId());
         Candidate oldCandidate = store.findById(updateCandidate.getId());
         updateCandidate.setName(oldCandidate.getName());
-        updateCandidate.setDesc(oldCandidate.getDesc());
+        updateCandidate.setDescription(oldCandidate.getDescription());
         if (del && file.isEmpty()) {
             updateCandidate.setPhoto(oldCandidate.getPhoto());
         } else {
@@ -100,17 +92,15 @@ public class CandidateController {
         return String.format("redirect:/formUpdateCandidate/%s", id);
     }
 
-    @GetMapping("/formDeleteCandidate/{candidateId}")
+    @GetMapping("/formCandidateId/{candidateId}")
     public String formDeleteCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute(VALUE, store.findById(id));
-        return "deleteCandidate";
+        model.addAttribute("candidateId", this.store.findById(id));
+        return "candidate";
     }
 
-    @PostMapping("/deleteCandidate")
-    public String deleteCandidate(@ModelAttribute Candidate candidate, @RequestParam("delete") boolean delete) {
-        if (delete) {
-            this.store.delete(candidate);
-        }
+    @GetMapping("/candidateDelete/{candidateId}")
+    public String candidateDelete(@PathVariable("candidateId") int id) {
+        this.store.delete(this.store.findById(id));
         return PATS;
     }
 
@@ -118,7 +108,7 @@ public class CandidateController {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
-            user.setName("Гость");
+            user.setName("Guest");
         }
         model.addAttribute("user", user);
     }

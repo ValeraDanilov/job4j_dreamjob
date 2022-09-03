@@ -2,10 +2,11 @@ package ru.job4j.dreamjob.service;
 
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import ru.job4j.dreamjob.jdbc.CandidateDBStore;
+import ru.job4j.dreamjob.repository.CandidateDBStore;
 import ru.job4j.dreamjob.model.Candidate;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @ThreadSafe
@@ -30,10 +31,16 @@ public class CandidateService {
     }
 
     public void update(Candidate candidate) {
+        if (this.store.findById(candidate.getId()) == null) {
+            throw new NoSuchElementException("Invalid item id ");
+        }
         this.store.update(candidate);
     }
 
     public void delete(Candidate candidate) {
+        if (this.store.findById(candidate.getId()) == null) {
+            throw new NoSuchElementException("Invalid item id ");
+        }
         this.store.delete(candidate);
     }
 }

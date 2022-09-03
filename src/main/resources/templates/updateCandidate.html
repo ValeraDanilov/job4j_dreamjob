@@ -18,52 +18,71 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Работа мечты</title>
+    <style>
+        .valCen {
+            text-align: center;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-header {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #b75e73;
+            border-color: #b75e73;
+        }
+    </style>
+    <title>Candidates!</title>
 </head>
 <body>
 <div class="container pt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Dream Job <small th:text="${user}"></small></a>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b75e73;">
+        <a class="navbar-brand" href="#">Candidates<small th:text="${user}"></small></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/index}">Главная <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Создание кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
             </div>
         </div>
     </nav>
     <div class="container pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Редактирование вакансии вакансия.
+                Editing job vacancy
             </div>
             <div class="card-body">
                 <form th:action="@{/updateCandidate}" method="POST" enctype="multipart/form-data"
                       th:object="${candidate}">
                     <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
-                        <label for="name">Имя</label>
+                        <label for="name">Name</label>
                         <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
                     </div>
                     <div class="form-group">
-                        <label for="desc">Описание</label>
-                        <input type="text" class="form-control" name="name" id="desc" th:field="*{desc}">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="name" id="description" th:field="*{description}">
                     </div>
                     <div class="form-group">
                         <a th:href="@{|/formDeletePhoto/${candidate.id}|}">
-                            <i class="fa fa-edit"> Редактор фото</i>
+                            <i class="fa fa-edit"> Photo editor</i>
                         </a>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" name="visible" class="form-check-input" id="visible">
-                        <label class="form-check-label" for="visible">Опубликовать</label>
+                        <label class="form-check-label" for="visible">Publish</label>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <div class="valCen">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
                 </form>
             </div>
         </div>

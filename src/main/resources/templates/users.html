@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Работа мечты!</title>
+    <title>Dream Job!</title>
 </head>
 <body>
 <div class="container pt-3">
@@ -11,9 +11,9 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Почта</th>
-            <th scope="col">Дата создания</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Date of creation</th>
         </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${#temporals.format(user.created, 'dd-MM-yyyy HH:mm')}"> />
+            <td th:text="${#temporals.format(user.created, 'dd-MM-yyyy HH:mm')}">
         </tr>
         </tbody>
     </table>

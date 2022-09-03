@@ -1,4 +1,4 @@
-package ru.job4j.dreamjob.jdbc;
+package ru.job4j.dreamjob.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class CandidateDBStore {
             ps.setString(1, candidate.getName());
             ps.setBytes(2, candidate.getPhoto());
             ps.setBoolean(3, candidate.isVisible());
-            ps.setString(4, candidate.getDesc());
+            ps.setString(4, candidate.getDescription());
             ps.setTimestamp(5, Timestamp.valueOf(candidate.getCreated()));
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -73,7 +73,7 @@ public class CandidateDBStore {
                      Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
             ps.setBytes(2, candidate.getPhoto());
-            ps.setString(3, candidate.getDesc());
+            ps.setString(3, candidate.getDescription());
             ps.setBoolean(4, candidate.isVisible());
             ps.setInt(5, candidate.getId());
             ps.executeUpdate();

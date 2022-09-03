@@ -9,17 +9,17 @@ public class Candidate {
     private String name;
     private byte[] photo;
     private boolean visible;
-    private String desc;
+    private String description;
     private LocalDateTime created;
 
     public Candidate() {}
 
-    public Candidate(int id, String name, byte[] photo, boolean visible, String desc, LocalDateTime created) {
+    public Candidate(int id, String name, byte[] photo, boolean visible, String description, LocalDateTime created) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.visible = visible;
-        this.desc = desc;
+        this.description = description;
         this.created = created;
     }
 
@@ -55,12 +55,12 @@ public class Candidate {
         this.visible = visible;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
 
     public LocalDateTime getCreated() {
@@ -89,7 +89,7 @@ public class Candidate {
         return "Candidate{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
+                ", description='" + description + '\'' +
                 ", created=" + created +
                 '}';
     }

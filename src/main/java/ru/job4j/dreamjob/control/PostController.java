@@ -11,6 +11,7 @@ import ru.job4j.dreamjob.service.PostService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @ThreadSafe
@@ -28,16 +29,9 @@ public class PostController {
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
         model.addAttribute("posts", this.postService.findAll());
+        model.addAttribute("cities", this.cityService.getAllCities());
         sessions(model, session);
         return "posts";
-    }
-
-    @GetMapping("/formAddPost")
-    public String addPost(Model model, HttpSession session) {
-        model.addAttribute("post", new Post(0, "Заполните поле", "Заполните поле", null, null, false));
-        model.addAttribute("cities", cityService.getAllCities());
-        sessions(model, session);
-        return "addPost";
     }
 
     @PostMapping("/createPost")
@@ -57,22 +51,20 @@ public class PostController {
 
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id) {
-        model.addAttribute("post", postService.findById(id));
-        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("post", this.postService.findById(id));
+        model.addAttribute("cities", this.cityService.getAllCities());
         return "updatePost";
     }
 
-    @GetMapping("/formDeletePost/{postId}")
+    @GetMapping("/formPostId/{postId}")
     public String formDeletePost(Model model, @PathVariable("postId") int id) {
-        model.addAttribute("post", postService.findById(id));
-        return "deletePost";
+        model.addAttribute("postsId", this.postService.findById(id));
+        return "post";
     }
 
-    @PostMapping("/deletePost")
-    public String deletePost(@ModelAttribute Post post, @RequestParam("delete") boolean delete) {
-        if (delete) {
-            this.postService.delete(post);
-        }
+    @GetMapping("/deletePost/{postId}")
+    public String deletePost(@PathVariable("postId") int id) {
+        this.postService.delete(this.postService.findById(id));
         return VALUE;
     }
 
@@ -80,7 +72,7 @@ public class PostController {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
-            user.setName("Гость");
+            user.setName("Guest");
         }
         model.addAttribute("user", user);
     }

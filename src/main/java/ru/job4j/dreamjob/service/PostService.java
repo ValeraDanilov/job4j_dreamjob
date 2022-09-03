@@ -2,10 +2,11 @@ package ru.job4j.dreamjob.service;
 
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import ru.job4j.dreamjob.jdbc.PostDBStore;
+import ru.job4j.dreamjob.repository.PostDBStore;
 import ru.job4j.dreamjob.model.Post;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @ThreadSafe
@@ -38,10 +39,16 @@ public class PostService {
     }
 
     public void update(Post post) {
+        if (this.store.findById(post.getId()) == null) {
+            throw new NoSuchElementException("Invalid item id ");
+        }
         this.store.update(post);
     }
 
     public void delete(Post post) {
+        if (this.store.findById(post.getId()) == null) {
+            throw new NoSuchElementException("Invalid item id ");
+        }
         this.store.delete(post);
     }
 }

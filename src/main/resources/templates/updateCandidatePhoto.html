@@ -19,23 +19,19 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .btn {
-            background-color: DodgerBlue;
-            border: none;
-            color: white;
-            padding: 12px 16px;
-            font-size: 16px;
-            cursor: pointer;
+        .card-body {
+            text-align: center;
         }
-        .btn:hover {
-            background-color: RoyalBlue;
+
+        .card-header {
+            text-align: center;
         }
     </style>
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
 </head>
 <body>
 <div class="container pt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b75e73;">
         <a class="navbar-brand" href="#">Dream Job <small th:text="${user}"></small></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,16 +39,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/index}">Главная <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Создание кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
             </div>
         </div>
     </nav>
     <div class="container pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Удаление фото.
+                Deleting a photo
             </div>
             <div class="card-body">
                 <form th:action="@{/updateCandidatePhoto}" method="POST" enctype="multipart/form-data"
@@ -62,13 +57,13 @@
                     <div class="form-group">
                         <input type="file" class="form-control" name="file" id="file">
                         <br>
-                        <button type="submit" name="delete" value="true" class="btn btn-primary">Сохранить фото</button>
+                        <button type="submit" name="delete" value="true" class="btn btn-success">Save photo</button>
                         <br>
                     </div>
                     <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
                     <br>
                     <br>
-                    <button class="btn" name="delete" value="false"><i class="fa fa-trash"></i> Удалить фото</button>
+                    <button class="btn btn-danger" name="delete" value="false"><i class="fa fa-trash"></i> Delete photo</button>
                 </form>
             </div>
         </div>
